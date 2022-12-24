@@ -12,7 +12,7 @@ const Form = () => {
     };
     console.log(name, email);
 
-    const res = await axios.post("/createUser", data);
+    const res = await axios.post("/createUser/", data);
     console.log(res);
 
     // also set the fields empty after data send

@@ -40,7 +40,7 @@ exports.createTodo = async (req, res) => {
   }
 };
 
-exports.getTodos = async (req, res) => {
+exports.getTodos = async (_req, res) => {
   const allTodos = await Todo.find();
 
   res.status(200).json(allTodos);
@@ -57,3 +57,19 @@ exports.getTodo = async (req, res) => {
     res.status(400).json("Todo not exists");
   }
 };
+
+exports.createTask = async (req, res) => {
+  const { todoId } = req.params;
+
+  const todo = await Todo.findById(todoId);
+  if (!todo) res.status(400).json("todo not available");
+
+  const { text } = req.body;
+  console.log(text);
+  todo.tasks.push(text);
+  await todo.save();
+
+  res.status(201).json(todo);
+};
+
+exports;

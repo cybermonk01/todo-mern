@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTodos } from "./redux/actions";
 
 const UserList = () => {
-  const [userData, setUserData] = useState(null);
+  // const [userData, setUserData] = useState(null);
+  const dispatch = useDispatch();
 
   const handleEdit = async (user) => {
     const name = prompt("enter new name");
@@ -20,21 +23,22 @@ const UserList = () => {
     const res = await axios.delete(`/deleteUser/${userId}`);
   };
   const fetchData = async () => {
-    const res = await axios.get("/getUsers");
-    console.log(res);
-    console.log(res.data);
-    console.log(res.data.users);
-
-    // if length is not present then dont set
-    if (res.data.users.length > 0) {
-      setUserData(res.data.users);
-      console.log(res.data.users);
-    }
+    // const res = await axios.get("/getUsers");
+    // console.log(res);
+    // console.log(res.data);
+    // console.log(res.data.users);
+    // // if length is not present then dont set
+    // if (res.data.users.length > 0) {
+    //   setUserData(res.data.users);
+    //   console.log(res.data.users);
+    // }
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
+    dispatch(getTodos());
   }, []);
+  const userData = useSelector((state) => state.todos);
   return (
     <section className="text-gray-600 body-font">
       <div className="container px-5 py-24 mx-auto">
@@ -65,7 +69,7 @@ const UserList = () => {
               {userData &&
                 userData.map((user) => (
                   <tr>
-                    <td className="px-4 py-3">{user.name}</td>
+                    <td className="px-4 py-3">{user.title}</td>
                     <td className="px-4 py-3">{user.email}</td>
                     <td className="px-4 py-3">
                       <button
